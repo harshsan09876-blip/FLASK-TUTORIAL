@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>My Flask App — Users</title>
+{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <h1>Users</h1>
+
+        <h2>Add a user</h2>
+        <form action="{{ url_for('index') }}" method="POST">
+            <label for="new-username">Username:</label>
+            <input id="new-username" type="text" name="username" maxlength="20" required>
+
+            <label for="new-email">Email:</label>
+            <input id="new-email" type="email" name="email" maxlength="120" required>
+
+            <button type="submit">Add user</button>
+        </form>
+
+        <h2>All users</h2>
+        {% if users %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td colspan="2">
+                                <form action="{{ url_for('update_user', user_id=user.id) }}" method="POST">
+                                    <label for="username-{{ user.id }}">Username:</label>
+                                    <input id="username-{{ user.id }}" type="text" name="username"
+                                           value="{{ user.username }}" maxlength="20" required>
+                                    <label for="email-{{ user.id }}">Email:</label>
+                                    <input id="email-{{ user.id }}" type="email" name="email"
+                                           value="{{ user.email }}" maxlength="120" required>
+                                    <button type="submit">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No users yet. Add one above.</p>
+        {% endif %}
+    </main>
+{% endblock %}

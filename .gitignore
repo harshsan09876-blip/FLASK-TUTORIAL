@@ -1,0 +1,12 @@
+# Python virtual environments
+.venv/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+
+# Local databases
+instance/*.db
+*.sqlite
+*.sqlite3
